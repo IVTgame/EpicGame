@@ -2,6 +2,10 @@ package org.epicgame.basichero;
 
 public class BasicHero {
 
+	public enum Action {
+		MOVEMENT, REST, NEAR_ATACK, FAR_ATACK, MAGICK_ATACK, SPECIAL_SKILS, DAMAGE, DIE
+	}
+	
     private Integer health; // уровень здоровья
     private Integer mana; // уровень маны (или другой энергии)
     private Integer nearArmor; // уровень брони от Ближнего боя
@@ -17,8 +21,23 @@ public class BasicHero {
     private Double criticalHit; // процент критического урона
     private Double distanceAtack; // дистанция, начиная с которой герой может атаковать(возможна поправка: для кажого заклинания будет отдельной)
     private Double distanceMove ; // дистанция, на которую может перемещаться герой (если какая-то клетка стоит дальше от текущей, больше на distanceMove, то туда нельзя перемещаться)
-
-    // сеттеры и геттеры для основных характеристик персонажа. 
+    private Action action;  // дейсвие персонажа в данный момент
+    private Integer numberSpecialSkils; // номер активного особого умения
+    
+        
+    // сеттеры и геттеры для основных характеристик персонажа.
+    public void setAction(Action action) {
+    	this.action = action;
+    }
+    public Action getAction() {
+    	return action;
+    }
+    public void setNumberSpecialSkils(Integer numberSpecialSkils) {
+    	this.numberSpecialSkils = numberSpecialSkils;
+    }
+    public Integer getNumberSpecialSkils() {
+    	return numberSpecialSkils;
+    }
     public void setHealth(Integer health) {
         this.health = health;
     }
