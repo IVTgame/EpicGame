@@ -18,25 +18,6 @@ public class BasicHero {
     private Double distanceAtack; // дистанция, начиная с которой герой может атаковать(возможна поправка: для кажого заклинания будет отдельной)
     private Double distanceMove ; // дистанция, на которую может перемещаться герой (если какая-то клетка стоит дальше от текущей, больше на distanceMove, то туда нельзя перемещаться)
 
-    // базовый, начальный конструктор
-    public BasicHero(Integer health, Integer mana) {
-        setHealth(health);
-        setMana(mana);
-        setNearArmor(0);
-        setRangeArmor(0);
-        setMagicArmor(0);
-        setNearDamage(0);
-        setRangeDamage(0);
-        setMagicDamage(0);
-        setNearPower(0);
-        setRangePower(0);
-        setMagicPower(0);
-        setMoney(0);
-        setCriticalHit(0.0);
-        setDistanceAtack(0.0);
-        setDistanceMove(0.0);
-    }
-
     // сеттеры и геттеры для основных характеристик персонажа. 
     public void setHealth(Integer health) {
         this.health = health;
