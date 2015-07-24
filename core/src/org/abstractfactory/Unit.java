@@ -18,9 +18,18 @@ public class Unit extends BasicHero implements  DrawableAction {
 	private Animation die;
 	private Animation[] specialSkills;
 	private Float runTime = 0f;
-	
+	private Boolean fly = false;
+
 	Unit() {
 		setAction(Action.REST);
+	}
+	
+	public Boolean getFly() {
+		return fly;
+	}
+
+	public void setFly(Boolean fly) {
+		this.fly = fly;
 	}
 	
 	@Override
