@@ -7,7 +7,7 @@ import org.epicgameheroesinterfaces.DrawableAction;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Unit extends BasicHero implements BasicAction, DrawableAction {
+public class Unit extends BasicHero implements  DrawableAction {
 
 	private Animation rest;
 	private Animation movement;
@@ -19,6 +19,10 @@ public class Unit extends BasicHero implements BasicAction, DrawableAction {
 	private Animation[] specialSkills;
 	private Float runTime = 0f;
 	
+	Unit() {
+		setAction(Action.REST);
+	}
+	
 	@Override
 	public void setAction(Action action) {
     	super.setAction(action);
@@ -27,41 +31,48 @@ public class Unit extends BasicHero implements BasicAction, DrawableAction {
 	
 	@Override
 	public void setRestAnimation(Animation anim) {
+		if(anim == null) return;
 		rest = anim;
 		rest.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 	}
 
 	@Override
 	public void setMovementAnimation(Animation anim) {
+		if (anim == null) return;
 		movement = anim;
 		movement.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 	}
 
 	@Override
 	public void setDamageAnimation(Animation anim) {
+		if(anim == null) return;
 		damage = anim;
 		damage.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 	}
 	
 	@Override
 	public void setDieAnimation(Animation anim) {
+		if(anim == null) return;
 		die = anim;
 		die.setPlayMode(Animation.PlayMode.NORMAL);
 	}
 	@Override
 	public void setNearAttackAnimation(Animation anim) {
+		if(anim == null) return;
 		nearAttack = anim;
 		nearAttack.setPlayMode(Animation.PlayMode.NORMAL);
 	}
 
 	@Override
 	public void setFarAttackAnimation(Animation anim) {
+		if(anim == null) return;
 		farAttack = anim;
 		farAttack.setPlayMode(Animation.PlayMode.NORMAL);
 	}
 
 	@Override
 	public void setMagickAttackAnimation(Animation anim) {
+		if(anim == null) return;
 		magickAttack = anim;
 		magickAttack.setPlayMode(Animation.PlayMode.NORMAL);
 		
@@ -69,8 +80,13 @@ public class Unit extends BasicHero implements BasicAction, DrawableAction {
 	
 	@Override
 	public void setSpecialSkillsAnimation(Animation[] anim) {
+		if(anim == null) return;
 		specialSkills = anim;
 		for(Animation a : anim) {
+			if(a == null) {
+				specialSkills = null;
+				return;
+			}
 			a.setPlayMode(Animation.PlayMode.NORMAL);
 		}
 	}

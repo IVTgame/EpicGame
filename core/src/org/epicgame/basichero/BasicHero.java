@@ -18,6 +18,8 @@ public class BasicHero {
     private Integer magicPower; // сила магии(наподрбие интеллекта)
     private Integer rangePower; // сила метательного оружия
     private Integer money; // количество денег героя
+    private Integer sizeX;
+    private Integer sizeY;
     private Double criticalHit; // процент критического урона
     private Double distanceAtack; // дистанция, начиная с которой герой может атаковать(возможна поправка: для кажого заклинания будет отдельной)
     private Double distanceMove ; // дистанция, на которую может перемещаться герой (если какая-то клетка стоит дальше от текущей, больше на distanceMove, то туда нельзя перемещаться)
@@ -25,7 +27,19 @@ public class BasicHero {
     private Integer numberSpecialSkils; // номер активного особого умения
     
         
-    // сеттеры и геттеры для основных характеристик персонажа.
+    public Integer getSizeY() {
+		return sizeY;
+	}
+	public void setSizeY(Integer sizeY) {
+		this.sizeY = sizeY;
+	}
+	public Integer getSizeX() {
+		return sizeX;
+	}
+	public void setSizeX(Integer sizeX) {
+		this.sizeX = sizeX;
+	}
+	// сеттеры и геттеры для основных характеристик персонажа.
     public void setAction(Action action) {
     	this.action = action;
     }
