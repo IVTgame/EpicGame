@@ -1,5 +1,7 @@
 package org.abstractfactory;
 
+import java.util.HashMap;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,15 +11,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class AnimationModel {
 
-	Texture atlas;
-	JSONObject detalisAtlas;
-	Float speedAnimation;
+	private Texture atlas;
+	private JSONObject detalisAtlas;
+	private Float speedAnimation;
+	private HashMap<String, Animation> mapAnim;
 
 	public AnimationModel(Texture atlas, JSONObject detalisAtlas,
 			Float speedAnimation) {
 		this.atlas = atlas;
 		this.detalisAtlas = detalisAtlas;
 		this.speedAnimation = speedAnimation;
+		mapAnim = new HashMap<String, Animation>();
 	}
 
 	public Animation stringArrayToAnimation(Object obj) {
@@ -26,6 +30,9 @@ public class AnimationModel {
 		}
 		if(((String)obj).equalsIgnoreCase("null")) {
 			return null;
+		}
+		if(mapAnim.containsKey((String)obj)) {
+			return mapAnim.get((String)obj);
 		}
 		String[] anim = ((String) obj).split(",");
 		TextureRegion[] imgs = new TextureRegion[anim.length];
@@ -42,6 +49,7 @@ public class AnimationModel {
 
 		}
 		Animation animation = new Animation(speedAnimation, imgs);
+		mapAnim.put((String)obj, animation);
 		return animation;
 	}
 }
