@@ -62,7 +62,6 @@ public class FactoryUnits {
 			return null;
 		}
 		Unit unit = new Unit();
-		Integer f = readField("health", 0, information);
 		unit.setHealth(readField("health", 0, information));
 		unit.setMana(readField("mana", 0, information));
 		unit.setNearArmor(readField("nearArmor", 0, information));
