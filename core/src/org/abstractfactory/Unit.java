@@ -1,7 +1,6 @@
 package org.abstractfactory;
 
 import org.epicgame.basichero.BasicHero;
-import org.epicgameheroesinterfaces.BasicAction;
 import org.epicgameheroesinterfaces.DrawableAction;
 
 import com.badlogic.gdx.graphics.g2d.Animation;

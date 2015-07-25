@@ -1,14 +1,11 @@
 package org.epicgame;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Date;
 
 import org.abstractfactory.AnimationModel;
 import org.abstractfactory.FactoryUnits;
-import org.abstractfactory.Unit;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,8 +25,6 @@ public class EpicGame extends ApplicationAdapter {
 	public void create() {
 		batch = new SpriteBatch();
 		String json = "";
-		File f = new File(".");
-		File[] d = f.listFiles();
 		try {
 			BufferedReader read = new BufferedReader(new FileReader(
 					"resourses/Drawable/test.json"));
