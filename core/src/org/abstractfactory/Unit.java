@@ -1,5 +1,7 @@
 package org.abstractfactory;
 
+import java.awt.Point;
+
 import org.epicgame.basichero.BasicHero;
 import org.epicgameheroesinterfaces.DrawableAction;
 
@@ -18,6 +20,7 @@ public class Unit extends BasicHero implements DrawableAction {
 	private Animation[] specialSkills;
 	private Float runTime = 0f;
 	private Boolean fly = false;
+	private Point positionUnit = new Point(0, 0);
 
 	Unit() {
 		setAction(Action.REST);
@@ -142,6 +145,15 @@ public class Unit extends BasicHero implements DrawableAction {
 		default:
 			return rest;
 		}
+	}
+	
+	public void changePosition(int x, int y) {
+		positionUnit.x = x;
+		positionUnit.y = y;
+	}
+	
+	public Point getPosition() {
+		return positionUnit;
 	}
 
 }
