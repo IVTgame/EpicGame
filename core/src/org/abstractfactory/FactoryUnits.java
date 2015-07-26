@@ -46,6 +46,7 @@ public class FactoryUnits {
 		this.aModel = aModel;
 	}
 
+	@SuppressWarnings("unchecked")
 	private <Type> Type readField(String field, Type x, JSONObject inform) {
 		try {
 			return ((String)inform.get(field)).equalsIgnoreCase("null") ? null : (Type)inform.get(field);
