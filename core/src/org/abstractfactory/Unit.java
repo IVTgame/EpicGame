@@ -115,7 +115,7 @@ public class Unit extends BasicHero implements DrawableAction {
 	public TextureRegion drawAction(Float runTime) {
 		this.runTime += runTime;
 		Animation selected = selectAction();
-		if (selected.getPlayMode() == Animation.PlayMode.NORMAL
+		if (selected != null && selected.getPlayMode() == Animation.PlayMode.NORMAL
 				&& selected.isAnimationFinished(this.runTime)) {
 			setAction(Action.REST);
 			this.runTime = 0f;

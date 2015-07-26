@@ -40,8 +40,9 @@ public class RunningPath {
 		this.oneStep = oneStep;
 	}
 
-	public void run(Unit unit, ArrayList<Point> path) {
+	public synchronized void run(Unit unit, ArrayList<Point> path) {
 		Timer timer = new Timer();
+		isRunning = true;
 		timer.schedule(creatTask(unit, path, timer), wait, period);
 	}
 
@@ -50,10 +51,9 @@ public class RunningPath {
 
 			@Override
 			public void run() {
-				System.out.println("go");
 				if (indexPath == path.size()) {
 					indexPath = 1;
-					System.out.println("can");
+					isRunning = false;
 					timer.cancel();
 				} else {
 					Point nextPointThePath = new Point(path.get(indexPath).x * SIZE_CELL, path.get(indexPath).y * SIZE_CELL);
@@ -61,7 +61,7 @@ public class RunningPath {
 						indexPath++;
 						if (indexPath == path.size()) {
 							indexPath = 1;
-							System.out.println("can");
+							isRunning = false;
 							timer.cancel();
 						} else {
 							nextPointThePath = new Point(path.get(indexPath).x * SIZE_CELL, path.get(indexPath).y * SIZE_CELL);

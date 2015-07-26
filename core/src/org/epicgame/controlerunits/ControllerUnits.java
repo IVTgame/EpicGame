@@ -29,16 +29,18 @@ public class ControllerUnits {
 		this.runningPath = runningPath;
 		addUnit(50, 100, FactoryUnits.getInstens().creat("Hunter"));
 		ArrayList<Point> p = new ArrayList<Point>();
+		selectUnit(50,100);
 		p.add(new Point(1,2));
 		p.add(new Point(1,3));
 		p.add(new Point(2,3));
-		selectUnit(50,100);
-		runThePath(p);
 		p.add(new Point(3,3));
 		p.add(new Point(4,3));
-		runThePath(p);
 		p.add(new Point(4,4));
 		p.add(new Point(4,5));
+		p.add(new Point(4,6));
+		p.add(new Point(4,7));
+		p.add(new Point(4,6));
+		p.add(new Point(5,5));
 		runThePath(p);
 	}
 
@@ -79,7 +81,10 @@ public class ControllerUnits {
 	}
 	
 	public boolean isActiveActions() {
-		return activeActions;
+		if(runningPath.isRunning()) {
+			return true;	
+		}
+		return false;
 	}
 
 }
