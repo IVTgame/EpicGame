@@ -24,10 +24,22 @@ public class ControllerUnits {
 	}
 
 	public ControllerUnits(RunningPath runningPath) {
-		addUnit(1, 2, FactoryUnits.getInstens().creat("Hunter"));
 		ArrayList<Unit> ar = getListUnit();
 		this.SIZE_CELL = runningPath.getSizeCell();
 		this.runningPath = runningPath;
+		addUnit(50, 100, FactoryUnits.getInstens().creat("Hunter"));
+		ArrayList<Point> p = new ArrayList<Point>();
+		p.add(new Point(1,2));
+		p.add(new Point(1,3));
+		p.add(new Point(2,3));
+		selectUnit(50,100);
+		runThePath(p);
+		p.add(new Point(3,3));
+		p.add(new Point(4,3));
+		runThePath(p);
+		p.add(new Point(4,4));
+		p.add(new Point(4,5));
+		runThePath(p);
 	}
 
 	public ArrayList<Unit> getListUnit() {
@@ -59,7 +71,7 @@ public class ControllerUnits {
 	}
 	
 	public void runThePath(ArrayList<Point> path) {
-		
+		runningPath.run(selectedUnit, path);
 	}
 	
 	public Unit getSelectedUnit() {

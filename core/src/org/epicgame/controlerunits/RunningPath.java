@@ -7,7 +7,7 @@ import java.util.TimerTask;
 
 import org.abstractfactory.Unit;
 
-public class RunningPath extends Timer {
+public class RunningPath {
 
 	private enum Direction {
 		UP, DOWN, RIGHT, LEFT, NOT
@@ -41,21 +41,31 @@ public class RunningPath extends Timer {
 	}
 
 	public void run(Unit unit, ArrayList<Point> path) {
-		 schedule(creatTask(unit, path), wait, period);
+		Timer timer = new Timer();
+		timer.schedule(creatTask(unit, path, timer), wait, period);
 	}
 
-	private TimerTask creatTask(final Unit unit, final ArrayList<Point> path) {
+	private TimerTask creatTask(final Unit unit, final ArrayList<Point> path, final Timer timer) {
 		return new TimerTask() {
 
 			@Override
 			public void run() {
+				System.out.println("go");
 				if (indexPath == path.size()) {
 					indexPath = 1;
-					cancel();
+					System.out.println("can");
+					timer.cancel();
 				} else {
 					Point nextPointThePath = new Point(path.get(indexPath).x * SIZE_CELL, path.get(indexPath).y * SIZE_CELL);
 					if (equalPoint(nextPointThePath, unit.getPosition())) {
 						indexPath++;
+						if (indexPath == path.size()) {
+							indexPath = 1;
+							System.out.println("can");
+							timer.cancel();
+						} else {
+							nextPointThePath = new Point(path.get(indexPath).x * SIZE_CELL, path.get(indexPath).y * SIZE_CELL);
+						}
 					}
 					
 					switch(chekDirection(unit.getPosition(), nextPointThePath)) {
