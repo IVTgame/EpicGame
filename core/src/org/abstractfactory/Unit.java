@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Unit extends BasicHero implements DrawableAction {
-
+	
+	public static Action ACTION;
 	private Animation rest;
 	private Animation movement;
 	private Animation nearAttack;
@@ -155,5 +156,4 @@ public class Unit extends BasicHero implements DrawableAction {
 	public Point getPosition() {
 		return positionUnit;
 	}
-
 }

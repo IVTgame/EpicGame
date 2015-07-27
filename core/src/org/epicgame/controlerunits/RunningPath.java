@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.abstractfactory.Unit;
+import org.epicgame.basichero.BasicHero.Action;
 import org.epicgame.defaultclasses.Point;
 
 
@@ -45,6 +46,7 @@ public class RunningPath {
 	public synchronized void run(Unit unit, ArrayList<Point> path) {
 		Timer timer = new Timer();
 		isRunning = true;
+		unit.setAction(Action.MOVEMENT);
 		timer.schedule(creatTask(unit, path, timer), wait, period);
 	}
 
@@ -56,6 +58,7 @@ public class RunningPath {
 				if (indexPath == path.size()) {
 					indexPath = 1;
 					isRunning = false;
+					unit.setAction(Action.REST);
 					timer.cancel();
 				} else {
 					Point nextPointThePath = new Point(path.get(indexPath).x * SIZE_CELL, path.get(indexPath).y * SIZE_CELL);
@@ -64,6 +67,7 @@ public class RunningPath {
 						if (indexPath == path.size()) {
 							indexPath = 1;
 							isRunning = false;
+							unit.setAction(Action.REST);
 							timer.cancel();
 						} else {
 							nextPointThePath = new Point(path.get(indexPath).x * SIZE_CELL, path.get(indexPath).y * SIZE_CELL);

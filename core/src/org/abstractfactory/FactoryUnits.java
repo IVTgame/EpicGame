@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class FactoryUnits {
@@ -13,7 +14,8 @@ public class FactoryUnits {
 
 	private FactoryUnits() {
 		String json = "";
-		json = Gdx.files.internal("units.json").readString();
+		FileHandle unitsFile = Gdx.files.internal("units.json");
+		json = unitsFile.readString();
 		try {
 			units = new JSONObject(json);
 		} catch (JSONException e) {

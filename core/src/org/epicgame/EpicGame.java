@@ -41,6 +41,7 @@ public class EpicGame extends ApplicationAdapter {
 		}
 		img = new Texture("badlogic.jpg");
 		con = new ControllerUnits(new RunningPath(200, 50, 50));
+		con.nearAttack();
 	}
 	
 	@Override
