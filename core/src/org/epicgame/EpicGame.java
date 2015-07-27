@@ -1,8 +1,6 @@
 package org.epicgame;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
 
 import org.abstractfactory.AnimationModel;
 import org.abstractfactory.FactoryUnits;
@@ -28,21 +26,14 @@ public class EpicGame extends ApplicationAdapter {
 	public void create() {
 		batch = new SpriteBatch();
 		String json = "";
-		try {
-			BufferedReader read = new BufferedReader(new FileReader(
-					"resourses/Drawable/test.json"));
-			while (read.ready()) {
-				json += read.readLine();
-			}
-			read.close();
-		} catch (IOException e1) {
-			json = null;
-			e1.printStackTrace();
-		}
+		File str = new File("badlogic.jpg");
+		json = Gdx.files.internal("test.json").readString();
+		System.out.println(str.canRead());
+	
 		try {
 			FactoryUnits.getInstens().setAnimationModel(
 					new AnimationModel(new Texture(
-							"resourses/Drawable/atlas.png"), new JSONObject(
+							"atlas.png"), new JSONObject(
 							json).getJSONObject("frames"), 0.5f));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -57,7 +48,7 @@ public class EpicGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(con.getListUnit().get(0).drawAction(0.1f), con.getListUnit()
+		batch.draw(con.getListUnit().get(0).drawAction(0.01f), con.getListUnit()
 				.get(0).getPosition().x,
 				con.getListUnit().get(0).getPosition().y, 50, 50);
 		batch.end();

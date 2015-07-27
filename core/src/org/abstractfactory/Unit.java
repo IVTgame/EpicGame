@@ -1,8 +1,8 @@
 package org.abstractfactory;
 
-import java.awt.Point;
 
 import org.epicgame.basichero.BasicHero;
+import org.epicgame.defaultclasses.Point;
 import org.epicgameheroesinterfaces.DrawableAction;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -120,8 +120,8 @@ public class Unit extends BasicHero implements DrawableAction {
 			setAction(Action.REST);
 			this.runTime = 0f;
 		}
-		return selected == null ? rest.getKeyFrame(runTime) : selected
-				.getKeyFrame(runTime);
+		return selected == null ? rest.getKeyFrame(this.runTime) : selected
+				.getKeyFrame(this.runTime);
 	}
 
 	private Animation selectAction() {

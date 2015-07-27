@@ -1,12 +1,9 @@
 package org.abstractfactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class FactoryUnits {
@@ -16,17 +13,7 @@ public class FactoryUnits {
 
 	private FactoryUnits() {
 		String json = "";
-		try {
-			BufferedReader read = new BufferedReader(new FileReader(
-					"resourses/Units/units.json"));
-			while (read.ready()) {
-				json += read.readLine();
-			}
-			read.close();
-		} catch (IOException e1) {
-			json = null;
-			e1.printStackTrace();
-		}
+		json = Gdx.files.internal("units.json").readString();
 		try {
 			units = new JSONObject(json);
 		} catch (JSONException e) {

@@ -1,11 +1,13 @@
 package org.epicgame.controlerunits;
 
-import java.awt.Point;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.abstractfactory.Unit;
+import org.epicgame.defaultclasses.Point;
+
 
 public class RunningPath {
 
@@ -92,18 +94,18 @@ public class RunningPath {
 		};
 	}
 
-	private Direction chekDirection(Point start, Point end) {
+	private Direction chekDirection(Point point, Point end) {
 		
-		if(start.x < end.x) {
+		if(point.x < end.x) {
 			return Direction.RIGHT;
 		}
-		if(start.x > end.x) {
+		if(point.x > end.x) {
 			return Direction.LEFT;
 		}
-		if(start.y < end.y) {
+		if(point.y < end.y) {
 			return Direction.DOWN;
 		}
-		if(start.y > end.y) {
+		if(point.y > end.y) {
 			return Direction.UP;
 		}
 		return Direction.NOT;

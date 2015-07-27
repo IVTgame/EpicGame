@@ -1,10 +1,11 @@
 package org.epicgame.android;
 
+import org.epicgame.EpicGame;
+
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import org.epicgame.EpicGame;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override

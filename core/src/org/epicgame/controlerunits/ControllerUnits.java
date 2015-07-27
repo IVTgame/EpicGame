@@ -1,11 +1,11 @@
 package org.epicgame.controlerunits;
 
-import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.abstractfactory.FactoryUnits;
 import org.abstractfactory.Unit;
+import org.epicgame.defaultclasses.Point;
 
 public class ControllerUnits {
 
