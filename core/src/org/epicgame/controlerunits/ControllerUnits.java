@@ -23,21 +23,6 @@ public class ControllerUnits {
 	public ControllerUnits(RunningPath runningPath) {
 		this.SIZE_CELL = runningPath.getSizeCell();
 		this.runningPath = runningPath;
-		addUnit(50, 100, FactoryUnits.getInstens().creat("Hunter"));
-		ArrayList<Point> p = new ArrayList<Point>();
-		selectUnit(50,100);
-		p.add(new Point(1,2));
-		p.add(new Point(1,3));
-		p.add(new Point(2,3));
-		p.add(new Point(3,3));
-		p.add(new Point(4,3));
-		p.add(new Point(4,4));
-		p.add(new Point(4,5));
-		p.add(new Point(4,6));
-		p.add(new Point(4,7));
-		p.add(new Point(4,6));
-		p.add(new Point(5,5));
-	//	runThePath(p);
 	}
 
 	public ArrayList<Unit> getListUnit() {
@@ -53,7 +38,8 @@ public class ControllerUnits {
 	}
 
 	public boolean selectUnit(int x, int y) {
-		if (deselectUnit() && mapUnit.containsKey((x / SIZE_CELL) + "," + (y / SIZE_CELL))) {
+		if (deselectUnit()
+				&& mapUnit.containsKey((x / SIZE_CELL) + "," + (y / SIZE_CELL))) {
 			selectedUnit = mapUnit.get((x / SIZE_CELL) + "," + (y / SIZE_CELL));
 			return true;
 		}
@@ -61,64 +47,72 @@ public class ControllerUnits {
 	}
 
 	public boolean deselectUnit() {
-		if(!activeActions) {
+		if (!activeActions) {
 			selectedUnit = null;
 			return true;
 		}
 		return false;
 	}
-	
+
 	public Integer nearAttack() {
-		if(selectedUnit != null && !isDie()) {
+		if (selectedUnit != null && !isDie()) {
 			selectedUnit.setAction(Action.NEAR_ATACK);
 			return selectedUnit.getNearDamage();
 		}
 		return null;
 	}
-	
+
 	public Integer farAttack() {
-		if(selectedUnit != null && !isDie()) {
+		if (selectedUnit != null && !isDie()) {
 			selectedUnit.setAction(Action.FAR_ATACK);
 			return selectedUnit.getRangeDamage();
 		}
 		return null;
 	}
-	
+
 	public Integer magicAttack() {
-		if(selectedUnit != null && !isDie()) {
+		if (selectedUnit != null && !isDie()) {
 			selectedUnit.setAction(Action.MAGICK_ATACK);
 			return selectedUnit.getMagicDamage();
 		}
 		return null;
 	}
-	
+
 	public void damage(Integer damage) {
-		if(selectedUnit != null && damage != null && !isDie()) {
+		if (selectedUnit != null && damage != null && !isDie()) {
 			selectedUnit.setHealth(selectedUnit.getHealth() - damage);
-			selectedUnit.setAction(selectedUnit.getHealth() > 0 ? Action.DAMAGE : Action.DIE);
+			selectedUnit.setAction(selectedUnit.getHealth() > 0 ? Action.DAMAGE
+					: Action.DIE);
 			selectedUnit = null;
 		}
 	}
-	
+
+	public void specailSkills(int numberSpecialSkills) {
+		if (selectedUnit != null && !isDie()) {
+			selectedUnit.setAction(Action.SPECIAL_SKILS);
+			selectedUnit.setNumberSpecialSkils(numberSpecialSkills);
+		}
+	}
+
 	private boolean isDie() {
 		return selectedUnit.getAction() == Action.DIE;
 	}
-	
+
 	public boolean runThePath(ArrayList<Point> path) {
-		if(isDie()) {
+		if (isDie()) {
 			return false;
 		}
 		runningPath.run(selectedUnit, path);
 		return true;
 	}
-	
+
 	public Unit getSelectedUnit() {
 		return selectedUnit;
 	}
-	
+
 	public boolean isActiveActions() {
-		if(runningPath.isRunning()) {
-			return true;	
+		if (runningPath.isRunning()) {
+			return true;
 		}
 		return false;
 	}
