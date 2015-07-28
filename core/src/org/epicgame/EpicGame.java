@@ -1,13 +1,11 @@
 package org.epicgame;
 
-import java.io.File;
+import java.awt.Point;
+import java.util.ArrayList;
 
-import org.abstractfactory.AnimationModel;
 import org.abstractfactory.FactoryUnits;
-import org.epicgame.controlerunits.ControllerUnits;
-import org.epicgame.controlerunits.RunningPath;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.abstractfactory.Unit;
+import org.epicgame.battlefield.BattleField;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -15,33 +13,42 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class EpicGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	Animation anim;
-	ControllerUnits con;
+	BattleField b;
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
 		String json = "";
-		File str = new File("badlogic.jpg");
 		json = Gdx.files.internal("test.json").readString();
-		System.out.println(str.canRead());
-	
-		try {
-			FactoryUnits.getInstens().setAnimationModel(
-					new AnimationModel(new Texture(
-							"atlas.png"), new JSONObject(
-							json).getJSONObject("frames"), 0.5f));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		b = new BattleField(30, 10, 10, 600, 600);
+		ArrayList<Unit> unit = new ArrayList<Unit>();
+		Unit u = FactoryUnits.getInstens().creat("Hunter");
+		u.changePosition(10, 0);
+		Unit u1 = FactoryUnits.getInstens().creat("Hunter");
+		u1.changePosition(10, 10);
+		Unit u2 = FactoryUnits.getInstens().creat("Hunter");
+		u2.changePosition(10, 20);
+		Unit u3 = FactoryUnits.getInstens().creat("Hunter");
+		u3.changePosition(10, 30);
+		//Unit u4 = FactoryUnits.getInstens().creat("Hunter");
+		//u4.changePosition(10, 40);
+		unit.add(u);
+		unit.add(u1);
+		unit.add(u2);
+		unit.add(u3);
+		//unit.add(u4);
+		b.addUnitsTheField(unit);
+		b.creatPath(new Point(0, 0), new Point(4, 0), null);
 		img = new Texture("badlogic.jpg");
-		con = new ControllerUnits(new RunningPath(200, 50, 50));
-		con.nearAttack();
+		b.setBackground(new TextureRegion(img));
+		b.setTextureCell(new TextureRegion(img, 0, 0, 10, 10));
+		b.setBeginFildTheUnit(new Point(50, 50));
 	}
 	
 	@Override
@@ -49,9 +56,12 @@ public class EpicGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(con.getListUnit().get(0).drawAction(0.01f), con.getListUnit()
-				.get(0).getPosition().x,
-				con.getListUnit().get(0).getPosition().y, 50, 50);
+		b.drawField(batch);
 		batch.end();
+	}
+	
+	@Override
+	public void pause() {
+		super.pause();
 	}
 }

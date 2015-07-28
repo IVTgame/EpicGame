@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.abstractfactory.Unit;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public interface FaitFieldAction { // ѕри инициализации в конструктор передаетс€
@@ -18,7 +19,7 @@ public interface FaitFieldAction { // ѕри инициализации в конструктор передаетс€
 															// считаетс€
 															// преп€тствием.
 
-	public TextureRegion drawField(); // возвраща кусок пол€ в зависимости от
+	public void drawField(SpriteBatch batch); // возвраща кусок пол€ в зависимости от
 										// установленых координат.
 
 	public ArrayList<Point> creatPath(Point start, Point end,
@@ -28,19 +29,10 @@ public interface FaitFieldAction { // ѕри инициализации в конструктор передаетс€
 										// прокладывании пути(например летающие
 										// игнорируют)
 
-	public void touchScreen(Point touch); // ¬ызываетс€ при соприкосновении
-											// пальца с экраном
-
-	public void movementOnTheScreen(Point move); // ¬ызываетс€ при движении
-													// пальца по экрану move -
-													// координата движени€.
-													// ƒвижение карты происходит
-													// только тогда когда
-													// разница между координатой
-													// движени€ и соприкосновни€
-													// больше половины клетки
-
 	public void setBackground(TextureRegion background); // ”станавливает фон
 															// пол€. Ћюба€
 															// картинка.
+	public void setTextureCell(TextureRegion textureCell);
+	
+	public void setBeginFildTheUnit(Point begin);
 }
