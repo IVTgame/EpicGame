@@ -6,7 +6,9 @@ import org.epicgame.defaultclasses.Point;
 import org.epicgameheroesinterfaces.DrawableAction;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Unit extends BasicHero implements DrawableAction {
 	
@@ -21,10 +23,26 @@ public class Unit extends BasicHero implements DrawableAction {
 	private Animation[] specialSkills;
 	private Float runTime = 0f;
 	private Boolean fly = false;
-	private Point positionUnit = new Point(0, 0);
+	private Point positionUnitToField = new Point();
+	private Point positionUnitPixel = new Point();
 
 	Unit() {
 		setAction(Action.REST);
+	}
+	
+	@Override
+	public void act(float deltaTime) {
+		runTime += deltaTime;
+	}
+	
+	@Override
+	public void draw (Batch batch, float parentAlpha) {
+		batch.draw(drawAction(), positionUnitPixel.x, positionUnitPixel.y, getSizeX(), getSizeY());
+	}
+	
+	@Override
+	public Actor hit (float x, float y, boolean touchable) {
+		return x == positionUnitToField.x && y == positionUnitToField.y ? this : null;
 	}
 
 	public Boolean getFly() {
@@ -112,9 +130,7 @@ public class Unit extends BasicHero implements DrawableAction {
 		}
 	}
 
-	@Override
-	public TextureRegion drawAction(Float runTime) {
-		this.runTime += runTime;
+	private TextureRegion drawAction() {
 		Animation selected = selectAction();
 		if (selected != null && selected.getPlayMode() == Animation.PlayMode.NORMAL
 				&& selected.isAnimationFinished(this.runTime)) {
@@ -148,12 +164,21 @@ public class Unit extends BasicHero implements DrawableAction {
 		}
 	}
 	
-	public void changePosition(int x, int y) {
-		positionUnit.x = x;
-		positionUnit.y = y;
+	public void changePositionPixel(int x, int y) {
+		positionUnitPixel.x = x;
+		positionUnitPixel.y = y;
 	}
 	
-	public Point getPosition() {
-		return positionUnit;
+	public void changePositionToField(int x, int y) {
+		positionUnitToField.x = x;
+		positionUnitToField.y = y;
+	}
+	
+	public Point getPositionPixel() {
+		return positionUnitPixel;
+	}
+	
+	public Point getPositionToField() {
+		return positionUnitToField;
 	}
 }

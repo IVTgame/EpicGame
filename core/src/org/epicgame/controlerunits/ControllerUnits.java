@@ -1,56 +1,49 @@
 package org.epicgame.controlerunits;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.abstractfactory.Unit;
 import org.epicgame.basichero.BasicHero.Action;
 import org.epicgame.defaultclasses.Point;
 
-public class ControllerUnits {
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 
-	/*
-	 * хранится пара(место расположение - юнит). Для быстроты нахождения юнита
-	 * на поле.
-	 */
-	private HashMap<String, Unit> mapUnit = new HashMap<String, Unit>();
+public class ControllerUnits extends Group {
+
+
+	private ArrayList<Unit> listUnit;
 	private Unit selectedUnit = null;
-	private Boolean activeActions = false;
 	private final int SIZE_CELL;
 	private final RunningPath runningPath;
 
 	public ControllerUnits(RunningPath runningPath) {
 		this.SIZE_CELL = runningPath.getSizeCell();
 		this.runningPath = runningPath;
+		listUnit = new ArrayList<Unit>();
 	}
 
+	@Override
+	public void draw (Batch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);
+	}
+	
+	@Override
+	public Actor hit(float x, float y, boolean touchable) {
+		selectedUnit = (Unit) super.hit(((int)x) / SIZE_CELL, ((int)y) / SIZE_CELL, touchable);
+		return selectedUnit;
+	}
+	
 	public ArrayList<Unit> getListUnit() {
-		ArrayList<Unit> list = new ArrayList<Unit>();
-		list.addAll(mapUnit.values());
-		return list;
+		return listUnit;
 	}
-
-	public boolean addUnit(int x, int y, Unit unit) {
-		unit.changePosition(x, y);
-		mapUnit.put((x / SIZE_CELL) + "," + (y / SIZE_CELL), unit);
-		return mapUnit.containsKey((x / SIZE_CELL) + "," + (y / SIZE_CELL));
-	}
-
-	public boolean selectUnit(int x, int y) {
-		if (deselectUnit()
-				&& mapUnit.containsKey((x / SIZE_CELL) + "," + (y / SIZE_CELL))) {
-			selectedUnit = mapUnit.get((x / SIZE_CELL) + "," + (y / SIZE_CELL));
-			return true;
-		}
-		return false;
-	}
-
-	public boolean deselectUnit() {
-		if (!activeActions) {
-			selectedUnit = null;
-			return true;
-		}
-		return false;
+	
+	public void addUnit(int x, int y, Unit unit) {
+		unit.changePositionPixel(x, y);
+		unit.changePositionToField(x / SIZE_CELL, y / SIZE_CELL);
+		addActor(unit);
+		listUnit.add(unit);
 	}
 
 	public Integer nearAttack() {
@@ -98,7 +91,7 @@ public class ControllerUnits {
 	}
 
 	public boolean runThePath(ArrayList<Point> path) {
-		if (isDie()) {
+		if (selectedUnit == null || isDie()) {
 			return false;
 		}
 		runningPath.run(selectedUnit, path);
@@ -110,10 +103,7 @@ public class ControllerUnits {
 	}
 
 	public boolean isActiveActions() {
-		if (runningPath.isRunning()) {
-			return true;
-		}
-		return false;
+		return runningPath.isRunning();
 	}
 
 }

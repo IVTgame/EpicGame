@@ -35,12 +35,12 @@ public class FactoryUnits {
 		this.aModel = aModel;
 	}
 
-	@SuppressWarnings("unchecked")
-	private <Type> Type readField(String field, Type x, JSONObject inform) {
+	private Number readField(String field, JSONObject inform) {
 		try {
-			return ((String)inform.get(field)).equalsIgnoreCase("null") ? null : (Type)inform.get(field);
+			Number value = ("" + inform.get(field)).equalsIgnoreCase("null") ? null : inform.getDouble(field);
+			return value != null ? value : -1;
 		} catch (Exception e) {
-			return null;
+			return -1;
 		}
 	}
 
@@ -52,23 +52,40 @@ public class FactoryUnits {
 			return null;
 		}
 		Unit unit = new Unit();
-		unit.setHealth(readField("health", 0, information));
-		unit.setMana(readField("mana", 0, information));
-		unit.setNearArmor(readField("nearArmor", 0, information));
-		unit.setMagicArmor(readField("magicArmor", 0, information));
-		unit.setRangeArmor(readField("rangeArmor", 0, information));
-		unit.setNearDamage(readField("nearDamage", 0, information));
-		unit.setMagicDamage(readField("magicDamage", 0, information));
-		unit.setRangeDamage(readField("rangeDamage", 0, information));
-		unit.setNearPower(readField("nearPower", 0, information));
-		unit.setMagicPower(readField("magicPower", 0, information));
-		unit.setRangePower(readField("rangePower", 0, information));
-		unit.setMoney(readField("money", 0, information));
-		unit.setCriticalHit(readField("criticalHit", 0d, information));
-		unit.setDistanceAtack(readField("distanceAtack", 0d, information));
-		unit.setDistanceMove(readField("distanceMove", 0d, information));
-		unit.setSizeX(readField("sizeX", 0, information));
-		unit.setSizeY(readField("sizeY", 0, information));
+		Number value = readField("health", information);
+		unit.setHealth(value.intValue() < 0 ? null : value.intValue());
+		value = readField("mana", information);
+		unit.setMana(value.intValue() < 0 ? null : value.intValue());
+		value = readField("nearArmor", information);
+		unit.setNearArmor(value.intValue() < 0 ? null : value.intValue());
+		value = readField("magicArmor", information);
+		unit.setMagicArmor(value.intValue() < 0 ? null : value.intValue());
+		value = readField("rangeArmor", information);
+		unit.setRangeArmor(value.intValue() < 0 ? null : value.intValue());
+		value = readField("nearDamage", information);
+		unit.setNearDamage(value.intValue() < 0 ? null : value.intValue());
+		value = readField("magicDamage", information);
+		unit.setMagicDamage(value.intValue() < 0 ? null : value.intValue());
+		value = readField("rangeDamage", information);
+		unit.setRangeDamage(value.intValue() < 0 ? null : value.intValue());
+		value = readField("nearPower", information);
+		unit.setNearPower(value.intValue() < 0 ? null : value.intValue());
+		value = readField("magicPower", information);
+		unit.setMagicPower(value.intValue() < 0 ? null : value.intValue());
+		value = readField("rangePower", information);
+		unit.setRangePower(value.intValue() < 0 ? null : value.intValue());
+		value = readField("money", information);
+		unit.setMoney(value.intValue() < 0 ? null : value.intValue());
+		value = readField("criticalHit", information);
+		unit.setCriticalHit(value.doubleValue() < 0 ? null : value.doubleValue());
+		value = readField("distanceAtack", information);
+		unit.setDistanceAtack(value.doubleValue() < 0 ? null : value.doubleValue());
+		value = readField("distanceMove", information);
+		unit.setDistanceMove(value.doubleValue() < 0 ? null : value.doubleValue());
+		value = readField("sizeX", information);
+		unit.setSizeX(value.intValue() < 0 ? null : value.intValue());
+		value = readField("sizeY", information);
+		unit.setSizeY(value.intValue() < 0 ? null : value.intValue());
 		if (aModel != null) {
 			try {
 				unit.setRestAnimation(aModel.stringArrayToAnimation(information

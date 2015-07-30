@@ -19,7 +19,7 @@ public interface FaitFieldAction { // При инициализации в конструктор передается
 															// считается
 															// препятствием.
 
-	public void drawField(SpriteBatch batch); // возвраща кусок поля в зависимости от
+	public void drawField(SpriteBatch spriteBatch); // возвраща кусок поля в зависимости от
 										// установленых координат.
 
 	public ArrayList<Point> creatPath(Point start, Point end,

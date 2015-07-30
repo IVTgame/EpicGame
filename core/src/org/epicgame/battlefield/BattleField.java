@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.abstractfactory.Unit;
 import org.drawinterfeses.FaitFieldAction;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -15,8 +16,8 @@ public class BattleField implements FaitFieldAction {
 	private int[][] battleField;
 	private final int sizeScreenX;
 	private final int sizeScreenY;
-	private TextureRegion background;
-	private TextureRegion textureCell;
+	private Sprite background;
+	private Sprite textureCell;
 	private Point begin;
 
 	public BattleField(int sizeCell, int fieldSizeX, int fieldSizeY, int sizeScreenX, int sizeScreenY) {
@@ -33,20 +34,20 @@ public class BattleField implements FaitFieldAction {
 	@Override
 	public void addUnitsTheField(ArrayList<Unit> units) {
 		for (Unit unit : units) {
-			battleField[unit.getPosition().y / SIZE_CELL][unit.getPosition().x
-					/ SIZE_CELL] = -1;
+			battleField[unit.getPositionToField().y][unit.getPositionToField().x] = -1;
 		}
 	}
 
 	@Override
-	public void drawField(SpriteBatch batch) {
-		batch.draw(background, 0, 0, sizeScreenX, sizeScreenY);
+	public void drawField(SpriteBatch spriteBatch) {
+		background.draw(spriteBatch);
 		if (textureCell != null) {
 			int x = begin == null ? 0 : begin.x;
 			int y = begin == null ? 0 : begin.y;
 			for(int i = 0; i < battleField.length; i++) {
 				for(int j = 0; j < battleField[i].length; j++) {
-					batch.draw(textureCell, j * SIZE_CELL + x, i * SIZE_CELL + y, SIZE_CELL, SIZE_CELL);
+					textureCell.setPosition(j * SIZE_CELL + x, i * SIZE_CELL + y);
+					textureCell.draw(spriteBatch);
 				}	
 			}
 		}
@@ -60,12 +61,18 @@ public class BattleField implements FaitFieldAction {
 
 	@Override
 	public void setBackground(TextureRegion background) {
-		this.background = background == null ? this.background : background;
+		this.background = background == null ? this.background : new Sprite(background);
+		if(this.background != null) {
+			this.background.setBounds(0, 0, sizeScreenX, sizeScreenY);
+		}
 	}
 	
 	@Override
 	public void setTextureCell(TextureRegion textureCell) {
-		this.textureCell = textureCell == null ? this.textureCell : textureCell;
+		this.textureCell = textureCell == null ? this.textureCell : new Sprite(textureCell);
+		if(this.textureCell != null) {
+			this.textureCell.setBounds(0, 0, SIZE_CELL, SIZE_CELL);
+		}
 	}
 	
 	@Override

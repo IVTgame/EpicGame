@@ -1,7 +1,6 @@
 package org.epicgameheroesinterfaces;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public interface DrawableAction {
 	public void setRestAnimation(Animation anim);
@@ -12,5 +11,4 @@ public interface DrawableAction {
 	public void setDamageAnimation(Animation anim);
 	public void setDieAnimation(Animation anim);
 	public void setSpecialSkillsAnimation(Animation[] anim);
-	public TextureRegion drawAction(Float runTime);
 }

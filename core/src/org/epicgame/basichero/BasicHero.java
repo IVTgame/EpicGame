@@ -1,6 +1,8 @@
 package org.epicgame.basichero;
 
-public class BasicHero {
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
+public class BasicHero extends Actor {
 
 	public enum Action {
 		MOVEMENT, REST, NEAR_ATACK, FAR_ATACK, MAGICK_ATACK, SPECIAL_SKILS, DAMAGE, DIE
