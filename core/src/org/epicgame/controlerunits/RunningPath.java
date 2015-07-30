@@ -21,9 +21,8 @@ public class RunningPath {
 	private int oneStep;
 	private int indexPath = 1;
 
-	public RunningPath(long wait, long period, int sizeCell) {
+	public RunningPath(long period, int sizeCell) {
 		this.period = period;
-		this.wait = wait;
 		this.SIZE_CELL = sizeCell;
 		findOneStep();
 	}

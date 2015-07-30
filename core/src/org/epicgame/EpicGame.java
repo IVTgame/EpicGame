@@ -29,20 +29,17 @@ public class EpicGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		b = new BattleField(30, 10, 10, 600, 600);
 		img = new Texture("badlogic.jpg");
-		try {
-			FactoryUnits.getInstens().setAnimationModel(
-					new AnimationModel(new Texture("atlas.png"), new JSONObject(
-							Gdx.files.internal("test.json").readString()).getJSONObject("frames"), 0.5f));
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			FactoryUnits.getInstens().setAnimationModel(
+//					new AnimationModel(new Texture("atlas.png"), new JSONObject(
+//							Gdx.files.internal("test.json").readString()).getJSONObject("frames"), 0.5f));
+//		} catch (JSONException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		stage = new Stage();
-		con = new ControllerUnits(new RunningPath(50));
-		con.addUnit(100, 100, FactoryUnits.getInstens().creat("Hunter"));
 		bg = new BattleGroup();
-		bg.setControllerUnitGame(con);
 		stage.addActor(bg);
 	}
 	ControllerUnits con;

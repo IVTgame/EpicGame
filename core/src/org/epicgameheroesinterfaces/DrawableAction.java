@@ -10,5 +10,4 @@ public interface DrawableAction {
 	public void setMagickAttackAnimation(Animation anim);
 	public void setDamageAnimation(Animation anim);
 	public void setDieAnimation(Animation anim);
-	public void setSpecialSkillsAnimation(Animation[] anim);
 }

@@ -16,19 +16,19 @@ public class BasicHero extends Actor {
     private Integer nearDamage; // урон от ближнего боя
     private Integer magicDamage; // урон от магического боя
     private Integer rangeDamage; // урон от лука, метательных ножей и прочее.
-    private Integer nearPower; // сила ближнего боя
-    private Integer magicPower; // сила магии(наподрбие интеллекта)
-    private Integer rangePower; // сила метательного оружия
-    private Integer money; // количество денег героя
     private Integer sizeX;
     private Integer sizeY;
     private Double criticalHit; // процент критического урона
     private Double distanceAtack; // дистанция, начиная с которой герой может атаковать(возможна поправка: для кажого заклинания будет отдельной)
     private Double distanceMove ; // дистанция, на которую может перемещаться герой (если какая-то клетка стоит дальше от текущей, больше на distanceMove, то туда нельзя перемещаться)
     private Action action;  // дейсвие персонажа в данный момент
-    private Integer numberSpecialSkils; // номер активного особого умения
     
-        
+    //new
+    private Integer initiative;
+    private Integer capacity;
+    private Integer increment;
+    
+    
     public Integer getSizeY() {
 		return sizeY;
 	}
@@ -47,12 +47,6 @@ public class BasicHero extends Actor {
     }
     public Action getAction() {
     	return action;
-    }
-    public void setNumberSpecialSkils(Integer numberSpecialSkils) {
-    	this.numberSpecialSkils = numberSpecialSkils;
-    }
-    public Integer getNumberSpecialSkils() {
-    	return numberSpecialSkils;
     }
     public void setHealth(Integer health) {
         this.health = health;
@@ -102,30 +96,6 @@ public class BasicHero extends Actor {
     public Integer getRangeDamage() {
         return rangeDamage;
     }
-    public void setNearPower(Integer nearPower) {
-        this.nearPower = nearPower;
-    }
-    public Integer getNearPower() {
-        return nearPower;
-    }
-    public void setRangePower(Integer rangePower) {
-        this.rangePower = rangePower;
-    }
-    public Integer getRangePower() {
-        return rangePower;
-    }
-    public void setMagicPower(Integer magicPower) {
-        this.magicPower = magicPower;
-    }
-    public Integer getMagicPower() {
-        return magicPower;
-    }
-    public void setMoney(Integer money) {
-        this.money = money;
-    }
-    public Integer getMoney() {
-        return money;
-    }
     public void setCriticalHit(Double criticalHit) {
         this.criticalHit = criticalHit;
     }
@@ -144,6 +114,25 @@ public class BasicHero extends Actor {
     public Double getDistanceMove() {
         return distanceMove;
     }
+	public Integer getInitiative() {
+		return initiative;
+	}
+	public void setInitiative(Integer initiative) {
+		if(this.initiative != null) return;
+		this.initiative = initiative;
+	}
+	public Integer getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(Integer capacity) {
+		this.capacity = capacity;
+	}
+	public Integer getIncrement() {
+		return increment;
+	}
+	public void setIncrement(Integer increment) {
+		this.increment = increment;
+	}
 
 
 }

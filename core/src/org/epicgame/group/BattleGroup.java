@@ -1,8 +1,13 @@
 package org.epicgame.group;
 
+import java.util.ArrayList;
+
+import org.abstractfactory.AnimationModel;
+import org.abstractfactory.FactoryUnits;
 import org.abstractfactory.Unit;
 import org.epicgame.battlefield.BattleField;
 import org.epicgame.controlerunits.ControllerUnits;
+import org.epicgame.controlerunits.RunningPath;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -11,17 +16,60 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 public class BattleGroup extends Group implements InputProcessor {
 	
 	private BattleField battelField;
-	private ControllerUnits controllerUnitsGamer;
-	private ControllerUnits controllerUnitsBot;
+	private ControllerUnits controllerUnits;
+	private FactoryUnits factoryUnits;
 	private Unit selectedUnit;
+	private SettingsBattleGroup seting;
+	private boolean isLoading;
+	private ArrayList<Unit> uits;
+	
+	public BattleGroup(SettingsBattleGroup seting) {
+		this.seting = seting;
+		uits = new ArrayList<Unit>();
+	}
+	
+	public void load() {
+		new Thread(new Runnable() {
 
-	public BattleGroup() {
+			@Override
+			public void run() {
+				initController();
+				initFactoryUnits();
+				loaded();
+			}
+			
+		}).start();
+		
+	}
+	
+	private synchronized void initController() {
+		controllerUnits = new ControllerUnits(new RunningPath(seting.speedMovement, seting.sizeCell));
+	}
+	
+	private synchronized void initFactoryUnits() {
+		factoryUnits = new FactoryUnits(seting.featuresUnits);
+		factoryUnits.setAnimationModel(new AnimationModel(seting.atlasAnimation, seting.featuresAtlas, seting.speedAnimation));
+	}
+	
+	private synchronized void initBattleField() {
+		battelField = new BattleField();
+	}
+	
+	private synchronized void loadUnitGamer() {
+		
+	}
+	
+	private synchronized void loadUnitBot() {
+		
+	}
+	
+	private synchronized void loaded() {
+		isLoading = false;
 		Gdx.input.setInputProcessor(this);
 	}
-
-	public void setControllerUnitGame(ControllerUnits controllerUnitsGamer) {
-		this.controllerUnitsGamer = controllerUnitsGamer;
-		this.addActor(controllerUnitsGamer);
+	
+	public boolean isLoading() {
+		return isLoading;
 	}
 	
 	@Override
@@ -29,6 +77,7 @@ public class BattleGroup extends Group implements InputProcessor {
 		
 		return false;
 	}
+	
 
 	@Override
 	public boolean keyUp(int keycode) {

@@ -9,8 +9,9 @@ import org.drawinterfeses.FaitFieldAction;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class BattleField implements FaitFieldAction {
+public class BattleField extends Actor implements FaitFieldAction {
 
 	private final int SIZE_CELL;
 	private int[][] battleField;
@@ -27,7 +28,7 @@ public class BattleField implements FaitFieldAction {
 		this.sizeScreenY = sizeScreenY;
 	}
 
-	private void clear() {
+	private void clearField() {
 		battleField = new int[battleField.length][battleField[0].length];
 	}
 
@@ -135,7 +136,7 @@ public class BattleField implements FaitFieldAction {
 			step = step(step);
 			path.add(step);
 		}
-		clear();
+		clearField();
 		return path;
 	}
 

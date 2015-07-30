@@ -3,32 +3,12 @@ package org.abstractfactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.Animation;
-
 public class FactoryUnits {
 	private JSONObject units;
-	private static FactoryUnits instens;
 	private AnimationModel aModel;
 
-	private FactoryUnits() {
-		String json = "";
-		FileHandle unitsFile = Gdx.files.internal("units.json");
-		json = unitsFile.readString();
-		try {
-			units = new JSONObject(json);
-		} catch (JSONException e) {
-			units = null;
-			e.printStackTrace();
-		}
-	}
-
-	public static FactoryUnits getInstens() {
-		if (instens == null) {
-			instens = new FactoryUnits();
-		}
-		return instens;
+	public FactoryUnits(JSONObject units) {
+		this.units = units;
 	}
 
 	public void setAnimationModel(AnimationModel aModel) {
@@ -44,14 +24,14 @@ public class FactoryUnits {
 		}
 	}
 
-	public Unit creat(String name) {
+	public Unit creat(String name, int whoControls) {
 		JSONObject information = null;
 		try {
 			information = units.getJSONObject(name);
 		} catch (JSONException e) {
 			return null;
 		}
-		Unit unit = new Unit();
+		Unit unit = new Unit(name, whoControls);
 		Number value = readField("health", information);
 		unit.setHealth(value.intValue() < 0 ? null : value.intValue());
 		value = readField("mana", information);
@@ -68,14 +48,6 @@ public class FactoryUnits {
 		unit.setMagicDamage(value.intValue() < 0 ? null : value.intValue());
 		value = readField("rangeDamage", information);
 		unit.setRangeDamage(value.intValue() < 0 ? null : value.intValue());
-		value = readField("nearPower", information);
-		unit.setNearPower(value.intValue() < 0 ? null : value.intValue());
-		value = readField("magicPower", information);
-		unit.setMagicPower(value.intValue() < 0 ? null : value.intValue());
-		value = readField("rangePower", information);
-		unit.setRangePower(value.intValue() < 0 ? null : value.intValue());
-		value = readField("money", information);
-		unit.setMoney(value.intValue() < 0 ? null : value.intValue());
 		value = readField("criticalHit", information);
 		unit.setCriticalHit(value.doubleValue() < 0 ? null : value.doubleValue());
 		value = readField("distanceAtack", information);
@@ -86,6 +58,13 @@ public class FactoryUnits {
 		unit.setSizeX(value.intValue() < 0 ? null : value.intValue());
 		value = readField("sizeY", information);
 		unit.setSizeY(value.intValue() < 0 ? null : value.intValue());
+		//new
+		value = readField("initiative", information);
+		unit.setInitiative(value.intValue() < 0 ? null : value.intValue());
+		value = readField("capacity", information);
+		unit.setCapacity(value.intValue() < 0 ? null : value.intValue());
+		value = readField("increment", information);
+		unit.setIncrement(value.intValue() < 0 ? null : value.intValue());
 		if (aModel != null) {
 			try {
 				unit.setRestAnimation(aModel.stringArrayToAnimation(information
@@ -128,20 +107,6 @@ public class FactoryUnits {
 						.stringArrayToAnimation(information.get("magickAttack")));
 			} catch (JSONException e) {
 				e.printStackTrace();
-			}
-			String[] a = null;
-			try {
-				a = information.get("specialSkills") == null ? null
-						: ((String) information.get("specialSkills")).split(";");
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			if(a != null) {
-				Animation[] skills = new Animation[a.length];
-				for(int i = 0; i < skills.length; i++) {
-					skills[i] = aModel.stringArrayToAnimation(a[i]);
-				}
-				unit.setSpecialSkillsAnimation(skills);
 			}
 		}
 		return unit;

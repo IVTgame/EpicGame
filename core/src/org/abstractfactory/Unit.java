@@ -20,14 +20,19 @@ public class Unit extends BasicHero implements DrawableAction {
 	private Animation magickAttack;
 	private Animation damage;
 	private Animation die;
-	private Animation[] specialSkills;
 	private Float runTime = 0f;
 	private Boolean fly = false;
 	private Point positionUnitToField = new Point();
 	private Point positionUnitPixel = new Point();
+	private final String NAME;
+	private final int WHO_CONTROLS;
+	public final int GAMER = 1;
+	public final int BOT = 2;
 
-	Unit() {
+	Unit(String name, int whoControls) {
 		setAction(Action.REST);
+		this.NAME = name;
+		this.WHO_CONTROLS = whoControls;
 	}
 	
 	@Override
@@ -43,6 +48,14 @@ public class Unit extends BasicHero implements DrawableAction {
 	@Override
 	public Actor hit (float x, float y, boolean touchable) {
 		return x == positionUnitToField.x && y == positionUnitToField.y ? this : null;
+	}
+	
+	public int getWhoControls() {
+		return WHO_CONTROLS;
+	}
+	
+	public String getName() {
+		return NAME;
 	}
 
 	public Boolean getFly() {
@@ -116,20 +129,6 @@ public class Unit extends BasicHero implements DrawableAction {
 
 	}
 
-	@Override
-	public void setSpecialSkillsAnimation(Animation[] anim) {
-		if (anim == null)
-			return;
-		specialSkills = anim;
-		for (Animation a : anim) {
-			if (a == null) {
-				specialSkills = null;
-				return;
-			}
-			a.setPlayMode(Animation.PlayMode.NORMAL);
-		}
-	}
-
 	private TextureRegion drawAction() {
 		Animation selected = selectAction();
 		if (selected != null && selected.getPlayMode() == Animation.PlayMode.NORMAL
@@ -153,8 +152,6 @@ public class Unit extends BasicHero implements DrawableAction {
 			return farAttack;
 		case MAGICK_ATACK:
 			return magickAttack;
-		case SPECIAL_SKILS:
-			return specialSkills[getNumberSpecialSkils()];
 		case DAMAGE:
 			return damage;
 		case DIE:
