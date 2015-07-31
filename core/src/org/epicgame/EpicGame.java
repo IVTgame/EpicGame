@@ -1,11 +1,7 @@
 package org.epicgame;
 
-import org.abstractfactory.AnimationModel;
-import org.abstractfactory.FactoryUnits;
-import org.epicgame.battlefield.BattleField;
-import org.epicgame.controlerunits.ControllerUnits;
-import org.epicgame.controlerunits.RunningPath;
 import org.epicgame.group.BattleGroup;
+import org.epicgame.group.SettingsBattleGroup;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,34 +11,38 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class EpicGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	Animation anim;
-	BattleField b;
 	Stage stage;
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
-		b = new BattleField(30, 10, 10, 600, 600);
 		img = new Texture("badlogic.jpg");
-//		try {
-//			FactoryUnits.getInstens().setAnimationModel(
-//					new AnimationModel(new Texture("atlas.png"), new JSONObject(
-//							Gdx.files.internal("test.json").readString()).getJSONObject("frames"), 0.5f));
-//		} catch (JSONException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
+		SettingsBattleGroup set = new SettingsBattleGroup();
+		set.atlasAnimation = new Texture("atlas.png");
+		try {
+			set.featuresAtlas = new JSONObject(Gdx.files.internal("test.json").readString()).getJSONObject("frames");
+			set.featuresUnits = new JSONObject(Gdx.files.internal("units.json").readString());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		set.speedAnimation = 0.5f;
+		set.sizeCell = Gdx.graphics.getHeight() / 5;
+		set.backgroundBattleField = new TextureRegion(img);
+		set.sizeBattleFieldX = 5;
+		set.sizeBattleFieldY = 5;
+		BattleGroup b = new BattleGroup(set);
 		stage = new Stage();
-		bg = new BattleGroup();
-		stage.addActor(bg);
+		stage.addActor(b);
 	}
-	ControllerUnits con;
+	
 	BattleGroup bg;
 	@Override
 	public void render() {

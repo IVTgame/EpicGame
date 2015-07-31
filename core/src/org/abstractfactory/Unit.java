@@ -26,8 +26,8 @@ public class Unit extends BasicHero implements DrawableAction {
 	private Point positionUnitPixel = new Point();
 	private final String NAME;
 	private final int WHO_CONTROLS;
-	public final int GAMER = 1;
-	public final int BOT = 2;
+	public static final int GAMER = 1;
+	public static final int BOT = 2;
 
 	Unit(String name, int whoControls) {
 		setAction(Action.REST);
@@ -42,7 +42,7 @@ public class Unit extends BasicHero implements DrawableAction {
 	
 	@Override
 	public void draw (Batch batch, float parentAlpha) {
-		batch.draw(drawAction(), positionUnitPixel.x, positionUnitPixel.y, getSizeX(), getSizeY());
+		batch.draw(drawAction(), positionUnitPixel.x, positionUnitPixel.y, getSizeX() * getScaleX(), getSizeY() * getScaleY());
 	}
 	
 	@Override

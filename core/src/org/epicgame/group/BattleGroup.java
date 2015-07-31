@@ -6,8 +6,8 @@ import org.abstractfactory.AnimationModel;
 import org.abstractfactory.FactoryUnits;
 import org.abstractfactory.Unit;
 import org.epicgame.battlefield.BattleField;
-import org.epicgame.controlerunits.ControllerUnits;
 import org.epicgame.controlerunits.RunningPath;
+import org.epicgame.defaultclasses.Point;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -16,16 +16,26 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 public class BattleGroup extends Group implements InputProcessor {
 	
 	private BattleField battelField;
-	private ControllerUnits controllerUnits;
+	private RunningPath runningPath;
 	private FactoryUnits factoryUnits;
 	private Unit selectedUnit;
 	private SettingsBattleGroup seting;
 	private boolean isLoading;
-	private ArrayList<Unit> uits;
+	private ArrayList<Unit> units;
+	private Point beginDraw = new Point(0,0);
+	private Point prevPosition = new Point();
 	
 	public BattleGroup(SettingsBattleGroup seting) {
 		this.seting = seting;
-		uits = new ArrayList<Unit>();
+		units = new ArrayList<Unit>();
+		initFactoryUnits();
+		initBattleField();
+		Unit v = factoryUnits.creat("Hunter", Unit.GAMER);
+		v.setSizeX(seting.sizeCell);
+		v.setSizeY(seting.sizeCell);
+		units.add(v);
+		addActor(v);
+		loaded();
 	}
 	
 	public void load() {
@@ -33,8 +43,9 @@ public class BattleGroup extends Group implements InputProcessor {
 
 			@Override
 			public void run() {
-				initController();
+				initRunningPath();
 				initFactoryUnits();
+				initBattleField();
 				loaded();
 			}
 			
@@ -42,8 +53,8 @@ public class BattleGroup extends Group implements InputProcessor {
 		
 	}
 	
-	private synchronized void initController() {
-		controllerUnits = new ControllerUnits(new RunningPath(seting.speedMovement, seting.sizeCell));
+	private synchronized void initRunningPath() {
+		runningPath = new RunningPath(seting.speedMovement, seting.sizeCell);
 	}
 	
 	private synchronized void initFactoryUnits() {
@@ -52,7 +63,9 @@ public class BattleGroup extends Group implements InputProcessor {
 	}
 	
 	private synchronized void initBattleField() {
-		battelField = new BattleField();
+		battelField = new BattleField(seting.sizeCell, seting.sizeBattleFieldX, seting.sizeBattleFieldY);
+		battelField.setBackground(seting.backgroundBattleField);
+		addActor(battelField);
 	}
 	
 	private synchronized void loadUnitGamer() {
@@ -93,6 +106,8 @@ public class BattleGroup extends Group implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		prevPosition.x = screenX;
+		prevPosition.y = Gdx.graphics.getHeight() - screenY;
 		selectedUnit = (Unit) hit(screenX, Gdx.graphics.getHeight() - screenY, true);
 		return false;
 	}
@@ -105,7 +120,11 @@ public class BattleGroup extends Group implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
+		beginDraw.x += screenX - prevPosition.x; 
+		beginDraw.y += Gdx.graphics.getHeight() - screenY - prevPosition.y; 
+		prevPosition.x = screenX;
+		prevPosition.y = Gdx.graphics.getHeight() - screenY;
+		setPosition(beginDraw.x, beginDraw.y);
 		return false;
 	}
 

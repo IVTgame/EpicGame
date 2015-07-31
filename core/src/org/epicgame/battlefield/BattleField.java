@@ -4,14 +4,13 @@ import java.awt.Point;
 import java.util.ArrayList;
 
 import org.abstractfactory.Unit;
-import org.drawinterfeses.FaitFieldAction;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class BattleField extends Actor implements FaitFieldAction {
+public class BattleField extends Actor {
 
 	private final int SIZE_CELL;
 	private int[][] battleField;
@@ -21,18 +20,17 @@ public class BattleField extends Actor implements FaitFieldAction {
 	private Sprite textureCell;
 	private Point begin;
 
-	public BattleField(int sizeCell, int fieldSizeX, int fieldSizeY, int sizeScreenX, int sizeScreenY) {
+	public BattleField(int sizeCell, int fieldSizeX, int fieldSizeY) {
 		SIZE_CELL = sizeCell;
 		battleField = new int[fieldSizeX][fieldSizeY];
-		this.sizeScreenX = sizeScreenX;
-		this.sizeScreenY = sizeScreenY;
+		this.sizeScreenX = sizeCell * fieldSizeX + sizeCell * fieldSizeX / 5 * 2;
+		this.sizeScreenY = sizeCell * fieldSizeY + sizeCell * fieldSizeY / 5 * 2;
 	}
 
 	private void clearField() {
 		battleField = new int[battleField.length][battleField[0].length];
 	}
 
-	@Override
 	public void addUnitsTheField(ArrayList<Unit> units) {
 		for (Unit unit : units) {
 			battleField[unit.getPositionToField().y][unit.getPositionToField().x] = -1;
@@ -40,27 +38,25 @@ public class BattleField extends Actor implements FaitFieldAction {
 	}
 
 	@Override
-	public void drawField(SpriteBatch spriteBatch) {
-		background.draw(spriteBatch);
+	public void draw(Batch batch, float parentAlpha) {
+		background.draw(batch);
 		if (textureCell != null) {
 			int x = begin == null ? 0 : begin.x;
 			int y = begin == null ? 0 : begin.y;
 			for(int i = 0; i < battleField.length; i++) {
 				for(int j = 0; j < battleField[i].length; j++) {
 					textureCell.setPosition(j * SIZE_CELL + x, i * SIZE_CELL + y);
-					textureCell.draw(spriteBatch);
+					textureCell.draw(batch);
 				}	
 			}
 		}
 	}
 
-	@Override
 	public ArrayList<Point> creatPath(Point start, Point end,
 			Boolean ignoreBarriers) {
 		return serchPath(start, end, ignoreBarriers);
 	}
 
-	@Override
 	public void setBackground(TextureRegion background) {
 		this.background = background == null ? this.background : new Sprite(background);
 		if(this.background != null) {
@@ -68,17 +64,11 @@ public class BattleField extends Actor implements FaitFieldAction {
 		}
 	}
 	
-	@Override
 	public void setTextureCell(TextureRegion textureCell) {
 		this.textureCell = textureCell == null ? this.textureCell : new Sprite(textureCell);
 		if(this.textureCell != null) {
 			this.textureCell.setBounds(0, 0, SIZE_CELL, SIZE_CELL);
 		}
-	}
-	
-	@Override
-	public void setBeginFildTheUnit(Point begin) {
-		this.begin = begin;
 	}
 
 	private ArrayList<Point> serchPath(Point start, Point end,

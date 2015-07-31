@@ -55,9 +55,9 @@ public class FactoryUnits {
 		value = readField("distanceMove", information);
 		unit.setDistanceMove(value.doubleValue() < 0 ? null : value.doubleValue());
 		value = readField("sizeX", information);
-		unit.setSizeX(value.intValue() < 0 ? null : value.intValue());
+		unit.setScaleX(value.intValue() < 0 ? null : value.intValue());
 		value = readField("sizeY", information);
-		unit.setSizeY(value.intValue() < 0 ? null : value.intValue());
+		unit.setScaleY(value.intValue() < 0 ? null : value.intValue());
 		//new
 		value = readField("initiative", information);
 		unit.setInitiative(value.intValue() < 0 ? null : value.intValue());
