@@ -65,6 +65,7 @@ public class BattleGroup extends Group implements InputProcessor {
 	private synchronized void initBattleField() {
 		battelField = new BattleField(seting.sizeCell, seting.sizeBattleFieldX, seting.sizeBattleFieldY);
 		battelField.setBackground(seting.backgroundBattleField);
+		
 		addActor(battelField);
 	}
 	

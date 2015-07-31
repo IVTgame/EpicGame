@@ -16,6 +16,8 @@ public class SettingsBattleGroup {
 	public int sizeBattleFieldX; //в клетках
 	public int sizeBattleFieldY; //в клетках
 	public TextureRegion  backgroundBattleField; // ‘он пол€ бо€
+	public TextureRegion  cellNotActiv; // ќбычна€ не активна€ клетка
+	public TextureRegion  cellActiv; // јктивна€ клетка(подсвечиваем куда можно пойти)
 	public Float speedAnimation; // —корость анимации(врем€ за которое пройдет целый цикл)
 	public Long speedMovement; // —корость движени€ по полю бо€(милисекунд на 1 шаг)
 	public Integer sizeCell; // –азмер клетки на поле бо€ в пиксел€х
