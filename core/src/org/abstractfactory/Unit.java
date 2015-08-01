@@ -52,7 +52,7 @@ public class Unit extends BasicHero implements DrawableAction {
 
 	@Override
 	public Actor hit(float x, float y, boolean touchable) {
-		return x == positionUnitToField.x && y == positionUnitToField.y ? this
+		return ((int)(x / SIZE_CELL)) == positionUnitToField.x && ((int)(y / SIZE_CELL)) == positionUnitToField.y ? this
 				: null;
 	}
 
@@ -91,7 +91,7 @@ public class Unit extends BasicHero implements DrawableAction {
 		if (anim == null)
 			return;
 		movement = anim;
-		movement.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+		movement.setPlayMode(Animation.PlayMode.LOOP);  // Изменить
 	}
 
 	@Override
@@ -167,6 +167,8 @@ public class Unit extends BasicHero implements DrawableAction {
 			return rest;
 		}
 	}
+	
+	
 
 	public void changePositionPixel(int x, int y) {
 		positionUnitPixel.x = x;

@@ -1,6 +1,10 @@
 package org.epicgame.group;
 
 import org.abstractfactory.Unit;
+import org.epicgame.basichero.BasicHero.Action;
+import org.epicgame.battlefield.BattleField;
+import org.epicgame.controlerunits.RunningPath;
+import org.epicgame.defaultclasses.Point;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -27,6 +31,41 @@ public class GroupUnits extends Actor {
 			return true;
 		}
 		return false;
+	}
+	
+	public Integer getHealth() {
+		return unit.getHealth() * count;
+	}
+	
+	public void damage(int damage) {
+		unit.setAction(Action.DAMAGE);
+		unit.setHealth(unit.getHealth() - damage / count);
+		if(unit.getHealth() <= 0) {
+			unit.setAction(Action.DIE);
+		}
+	}
+	
+	public Integer nearAttack() {
+		unit.setAction(Action.NEAR_ATACK);
+		return (int)(unit.getNearDamage() * count * unit.getCriticalHit());
+	}
+	
+	public Integer farAttack() {
+		unit.setAction(Action.FAR_ATACK);
+		return (int)(unit.getRangeDamage() * count * unit.getCriticalHit());
+	}
+	
+	public Integer magicAttack() {
+		unit.setAction(Action.MAGICK_ATACK);
+		return (int)(unit.getMagicDamage() * count * unit.getCriticalHit());
+	}
+	
+	public boolean isDie() {
+		return unit.getAction() == Action.DIE;
+	}
+	
+	public boolean goToPoint(RunningPath rP, BattleField bF, Point gP) {
+		return rP.run(unit, bF.creatPath(unit.getPositionToField(), gP, unit.getFly()));
 	}
 	
 	@Override

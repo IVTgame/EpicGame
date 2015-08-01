@@ -101,13 +101,17 @@ public class BattleField extends Actor {
 
 	private ArrayList<Point> serchPath(Point start, Point end,
 			Boolean ignoreBarriers) {
+		try {
 		if (serch(end, start, ignoreBarriers)) {
 			return readPath(start, end);
+		}
+		} catch (ArrayIndexOutOfBoundsException ex) {
+			return null;
 		}
 		return null;
 	}
 
-	private boolean serch(Point start, Point end, Boolean ignoreBarriers) {
+	private boolean serch(Point start, Point end, Boolean ignoreBarriers) throws ArrayIndexOutOfBoundsException {
 		int d = 1;
 		battleField[start.y][start.x] = d;
 		boolean endSerch = false;

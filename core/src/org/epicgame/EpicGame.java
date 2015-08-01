@@ -25,21 +25,22 @@ public class EpicGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		SettingsBattleGroup set = new SettingsBattleGroup();
-		set.atlasAnimation = new Texture("atlas.png");
+		set.atlasAnimation = new Texture("texture.png");
 		try {
-			set.featuresAtlas = new JSONObject(Gdx.files.internal("test.json").readString()).getJSONObject("frames");
+			set.featuresAtlas = new JSONObject(Gdx.files.internal("feature.json").readString()).getJSONObject("frames");
 			set.featuresUnits = new JSONObject(Gdx.files.internal("units.json").readString());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		set.speedAnimation = 0.5f;
+		set.speedAnimation = 0.05f;
 		set.sizeCell = Gdx.graphics.getHeight() / 5;
 		set.backgroundBattleField = new TextureRegion(img);
 		set.sizeBattleFieldX = 5;
 		set.sizeBattleFieldY = 5;
 		set.cellNotActiv = new TextureRegion(img, 0, 0, 20, 20);
 		set.cellActiv = new TextureRegion(img, 0, 0, 20, 20);
+		set.speedMovement = 200l;
 		BattleGroup b = new BattleGroup(set);
 		stage = new Stage();
 		stage.addActor(b);

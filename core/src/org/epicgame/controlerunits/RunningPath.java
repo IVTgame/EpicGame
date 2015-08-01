@@ -40,16 +40,17 @@ public class RunningPath {
 		this.oneStep = oneStep;
 	}
 
-	public synchronized void run(Unit unit, ArrayList<Point> path) {
-		if (path.size() == 0
+	public synchronized boolean run(Unit unit, ArrayList<Point> path) {
+		if (path == null || unit == null || path.size() == 0
 				|| (unit.getPositionToField().x != path.get(0).x || unit
 						.getPositionToField().y != path.get(0).y)) {
-			return;
+			return false;
 		}
 		Timer timer = new Timer();
 		isRunning = true;
 		unit.setAction(Action.MOVEMENT);
 		timer.schedule(creatTask(unit, path, timer), wait, period);
+		return true;
 	}
 
 	private TimerTask creatTask(final Unit unit, final ArrayList<Point> path,
@@ -58,7 +59,7 @@ public class RunningPath {
 
 			@Override
 			public void run() {
-				if (indexPath == path.size()) {
+				if (indexPath >= path.size()) {
 					indexPath = 1;
 					isRunning = false;
 					unit.setAction(Action.REST);
@@ -102,8 +103,6 @@ public class RunningPath {
 						indexPath++;
 						break;
 					}
-					unit.changePositionToField(unit.getPositionPixel().x
-							/ SIZE_CELL, unit.getPositionPixel().y / SIZE_CELL);
 				}
 
 			}

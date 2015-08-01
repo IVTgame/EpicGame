@@ -28,7 +28,7 @@ public class AnimationModel {
 		if (obj == null) {
 			return null;
 		}
-		if(((String)obj).equalsIgnoreCase("null")) {
+		if(("" + obj).equalsIgnoreCase("null")) {
 			return null;
 		}
 		if(mapAnim.containsKey((String)obj)) {
