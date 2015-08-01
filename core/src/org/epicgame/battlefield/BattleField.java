@@ -1,9 +1,10 @@
 package org.epicgame.battlefield;
 
-import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.abstractfactory.Unit;
+import org.epicgame.defaultclasses.Point;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -17,18 +18,36 @@ public class BattleField extends Actor {
 	private final int sizeScreenX;
 	private final int sizeScreenY;
 	private Sprite background;
-	private Sprite textureCell;
+	private Sprite textureCellNotActiv;
+	private Sprite textureCellActiv;
 	private Point begin;
+	private HashMap<String, String> activCell;
 
 	public BattleField(int sizeCell, int fieldSizeX, int fieldSizeY) {
 		SIZE_CELL = sizeCell;
 		battleField = new int[fieldSizeX][fieldSizeY];
 		this.sizeScreenX = sizeCell * fieldSizeX + sizeCell * fieldSizeX / 5 * 2;
 		this.sizeScreenY = sizeCell * fieldSizeY + sizeCell * fieldSizeY / 5 * 2;
+		begin = new Point(sizeCell * fieldSizeX / 5, sizeCell * fieldSizeY / 5);
 	}
 
 	private void clearField() {
 		battleField = new int[battleField.length][battleField[0].length];
+	}
+	
+	public Point getBeginDraw() {
+		return begin;
+	}
+	
+	public void setActivCell(ArrayList<Point> activCell) {
+		if(activCell == null) {
+			this.activCell = null;
+			return;
+		}
+		this.activCell = new HashMap<String, String>(activCell.size());
+		for(Point p : activCell) {
+			this.activCell.put(p.y + "," + p.x, null);
+		}
 	}
 
 	public void addUnitsTheField(ArrayList<Unit> units) {
@@ -40,13 +59,18 @@ public class BattleField extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		background.draw(batch);
-		if (textureCell != null) {
+		if (textureCellActiv != null && textureCellNotActiv != null) {
 			int x = begin == null ? 0 : begin.x;
 			int y = begin == null ? 0 : begin.y;
 			for(int i = 0; i < battleField.length; i++) {
 				for(int j = 0; j < battleField[i].length; j++) {
-					textureCell.setPosition(j * SIZE_CELL + x, i * SIZE_CELL + y);
-					textureCell.draw(batch);
+					if(activCell != null && activCell.containsKey(i + "," + j)) {
+						textureCellActiv.setPosition(j * SIZE_CELL + x, i * SIZE_CELL + y);
+						textureCellActiv.draw(batch);
+					} else {
+						textureCellNotActiv.setPosition(j * SIZE_CELL + x, i * SIZE_CELL + y);
+						textureCellNotActiv.draw(batch);
+					}
 				}	
 			}
 		}
@@ -64,10 +88,14 @@ public class BattleField extends Actor {
 		}
 	}
 	
-	public void setTextureCell(TextureRegion textureCell) {
-		this.textureCell = textureCell == null ? this.textureCell : new Sprite(textureCell);
-		if(this.textureCell != null) {
-			this.textureCell.setBounds(0, 0, SIZE_CELL, SIZE_CELL);
+	public void setTextureCell(TextureRegion ñellNotActiv, TextureRegion ñellActiv) {
+		this.textureCellNotActiv = ñellNotActiv == null ? this.textureCellNotActiv : new Sprite(ñellNotActiv);
+		this.textureCellActiv = ñellActiv == null ? this.textureCellActiv : new Sprite(ñellActiv);
+		if(this.textureCellNotActiv != null) {
+			this.textureCellNotActiv.setBounds(0, 0, SIZE_CELL, SIZE_CELL);
+		}
+		if(this.textureCellActiv != null) {
+			this.textureCellActiv.setBounds(0, 0, SIZE_CELL, SIZE_CELL);
 		}
 	}
 

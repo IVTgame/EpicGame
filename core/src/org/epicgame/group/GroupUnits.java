@@ -11,9 +11,27 @@ public class GroupUnits extends Actor {
 	private int count;
 	
 	
-	private GroupUnits(Unit unit) {
+	public GroupUnits(Unit unit) {
 		this.unit = unit;
-		count = 0;
+		count = 1;
+	}
+	
+	public GroupUnits(Unit unit, int count) {
+		this.unit = unit;
+		this.count = count;
+	}
+	
+	public boolean equalsUnit(Unit unitEq) {
+		if(unit.getName().equalsIgnoreCase(unitEq.getName())) {
+			count++;
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public void act(float deltaTime) {
+		unit.act(deltaTime);
 	}
 	
 	@Override

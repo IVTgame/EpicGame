@@ -1,14 +1,19 @@
 package org.abstractfactory;
 
+import org.epicgame.defaultclasses.Point;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FactoryUnits {
 	private JSONObject units;
+	private Point beginDraw;
 	private AnimationModel aModel;
+	private final int SIZE_CELL;
 
-	public FactoryUnits(JSONObject units) {
+	public FactoryUnits(JSONObject units, Point beginDraw, int sizeCell) {
 		this.units = units;
+		this.beginDraw = beginDraw;
+		SIZE_CELL = sizeCell;
 	}
 
 	public void setAnimationModel(AnimationModel aModel) {
@@ -31,7 +36,7 @@ public class FactoryUnits {
 		} catch (JSONException e) {
 			return null;
 		}
-		Unit unit = new Unit(name, whoControls);
+		Unit unit = new Unit(name, whoControls, beginDraw, SIZE_CELL);
 		Number value = readField("health", information);
 		unit.setHealth(value.intValue() < 0 ? null : value.intValue());
 		value = readField("mana", information);

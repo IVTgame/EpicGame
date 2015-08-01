@@ -8,6 +8,9 @@ import org.abstractfactory.Unit;
 import org.epicgame.battlefield.BattleField;
 import org.epicgame.controlerunits.RunningPath;
 import org.epicgame.defaultclasses.Point;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
@@ -21,21 +24,40 @@ public class BattleGroup extends Group implements InputProcessor {
 	private Unit selectedUnit;
 	private SettingsBattleGroup seting;
 	private boolean isLoading;
-	private ArrayList<Unit> units;
+	private ArrayList<GroupUnits> units;
 	private Point beginDraw = new Point(0,0);
 	private Point prevPosition = new Point();
 	
 	public BattleGroup(SettingsBattleGroup seting) {
 		this.seting = seting;
-		units = new ArrayList<Unit>();
-		initFactoryUnits();
+		units = new ArrayList<GroupUnits>();
 		initBattleField();
+		initFactoryUnits();
 		Unit v = factoryUnits.creat("Hunter", Unit.GAMER);
 		v.setSizeX(seting.sizeCell);
 		v.setSizeY(seting.sizeCell);
-		units.add(v);
-		addActor(v);
+		v.changePositionToField(1, 1);
+		addUnit(v);
 		loaded();
+	}
+	
+	private GroupUnits addUnit(Unit unit) {
+		for(GroupUnits add : units) {
+			if(add.equalsUnit(unit)) {
+				addActor(add);
+				return add;
+			}
+		}
+		GroupUnits add = new GroupUnits(unit);
+		units.add(add);
+		addActor(add);
+		return add;
+	}
+	
+	private void addUnits(Unit unit, int count) {
+		GroupUnits add = new GroupUnits(unit, count);
+		units.add(add);
+		addActor(add);
 	}
 	
 	public void load() {
@@ -44,8 +66,10 @@ public class BattleGroup extends Group implements InputProcessor {
 			@Override
 			public void run() {
 				initRunningPath();
-				initFactoryUnits();
 				initBattleField();
+				initFactoryUnits();
+				loadUnitGamer();
+				loadUnitBot();
 				loaded();
 			}
 			
@@ -58,23 +82,37 @@ public class BattleGroup extends Group implements InputProcessor {
 	}
 	
 	private synchronized void initFactoryUnits() {
-		factoryUnits = new FactoryUnits(seting.featuresUnits);
+		factoryUnits = new FactoryUnits(seting.featuresUnits, battelField.getBeginDraw(), seting.sizeCell);
 		factoryUnits.setAnimationModel(new AnimationModel(seting.atlasAnimation, seting.featuresAtlas, seting.speedAnimation));
 	}
 	
 	private synchronized void initBattleField() {
 		battelField = new BattleField(seting.sizeCell, seting.sizeBattleFieldX, seting.sizeBattleFieldY);
 		battelField.setBackground(seting.backgroundBattleField);
-		
+		battelField.setTextureCell(seting.cellNotActiv, seting.cellActiv);
 		addActor(battelField);
 	}
 	
 	private synchronized void loadUnitGamer() {
-		
+		fillingListUnit(seting.featuresHero, Unit.GAMER);
 	}
 	
 	private synchronized void loadUnitBot() {
-		
+		fillingListUnit(seting.featuresBattleField, Unit.BOT);
+	}
+	
+	private void fillingListUnit(JSONArray listUnit, int whoControls) {
+		for(int i = 0; !listUnit.isNull(i); i++) {
+			try {
+			JSONObject oneUnit = listUnit.getJSONObject(i);
+			String name = oneUnit.getString("name");
+			int count = oneUnit.getInt("count");
+			Unit cU = factoryUnits.creat(name, whoControls);
+			addUnits(cU, count);
+			} catch (JSONException ex) {
+				// Запись в эксепшена в файл.
+			}
+		}
 	}
 	
 	private synchronized void loaded() {

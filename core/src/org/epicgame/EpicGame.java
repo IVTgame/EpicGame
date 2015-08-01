@@ -38,6 +38,8 @@ public class EpicGame extends ApplicationAdapter {
 		set.backgroundBattleField = new TextureRegion(img);
 		set.sizeBattleFieldX = 5;
 		set.sizeBattleFieldY = 5;
+		set.cellNotActiv = new TextureRegion(img, 0, 0, 20, 20);
+		set.cellActiv = new TextureRegion(img, 0, 0, 20, 20);
 		BattleGroup b = new BattleGroup(set);
 		stage = new Stage();
 		stage.addActor(b);

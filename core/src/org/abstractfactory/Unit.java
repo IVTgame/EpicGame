@@ -1,6 +1,5 @@
 package org.abstractfactory;
 
-
 import org.epicgame.basichero.BasicHero;
 import org.epicgame.defaultclasses.Point;
 import org.epicgameheroesinterfaces.DrawableAction;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Unit extends BasicHero implements DrawableAction {
-	
+
 	public static Action ACTION;
 	private Animation rest;
 	private Animation movement;
@@ -26,34 +25,41 @@ public class Unit extends BasicHero implements DrawableAction {
 	private Point positionUnitPixel = new Point();
 	private final String NAME;
 	private final int WHO_CONTROLS;
+	private Point beginDraw;
+	private final int SIZE_CELL;
 	public static final int GAMER = 1;
 	public static final int BOT = 2;
 
-	Unit(String name, int whoControls) {
+	Unit(String name, int whoControls, Point beginDraw, int sizeCell) {
 		setAction(Action.REST);
 		this.NAME = name;
+		this.beginDraw = beginDraw;
 		this.WHO_CONTROLS = whoControls;
+		SIZE_CELL = sizeCell;
 	}
-	
+
 	@Override
 	public void act(float deltaTime) {
 		runTime += deltaTime;
 	}
-	
+
 	@Override
-	public void draw (Batch batch, float parentAlpha) {
-		batch.draw(drawAction(), positionUnitPixel.x, positionUnitPixel.y, getSizeX() * getScaleX(), getSizeY() * getScaleY());
+	public void draw(Batch batch, float parentAlpha) {
+		batch.draw(drawAction(), beginDraw.x + positionUnitPixel.x, beginDraw.y
+				+ positionUnitPixel.y, getSizeX() * getScaleX(), getSizeY()
+				* getScaleY());
 	}
-	
+
 	@Override
-	public Actor hit (float x, float y, boolean touchable) {
-		return x == positionUnitToField.x && y == positionUnitToField.y ? this : null;
+	public Actor hit(float x, float y, boolean touchable) {
+		return x == positionUnitToField.x && y == positionUnitToField.y ? this
+				: null;
 	}
-	
+
 	public int getWhoControls() {
 		return WHO_CONTROLS;
 	}
-	
+
 	public String getName() {
 		return NAME;
 	}
@@ -131,7 +137,8 @@ public class Unit extends BasicHero implements DrawableAction {
 
 	private TextureRegion drawAction() {
 		Animation selected = selectAction();
-		if (selected != null && selected.getPlayMode() == Animation.PlayMode.NORMAL
+		if (selected != null
+				&& selected.getPlayMode() == Animation.PlayMode.NORMAL
 				&& selected.isAnimationFinished(this.runTime)) {
 			setAction(Action.REST);
 			this.runTime = 0f;
@@ -160,21 +167,25 @@ public class Unit extends BasicHero implements DrawableAction {
 			return rest;
 		}
 	}
-	
+
 	public void changePositionPixel(int x, int y) {
 		positionUnitPixel.x = x;
 		positionUnitPixel.y = y;
+		positionUnitToField.x = x / SIZE_CELL;
+		positionUnitToField.y = y / SIZE_CELL;
 	}
-	
+
 	public void changePositionToField(int x, int y) {
 		positionUnitToField.x = x;
 		positionUnitToField.y = y;
+		positionUnitPixel.x = x * SIZE_CELL;
+		positionUnitPixel.y = y * SIZE_CELL;
 	}
-	
+
 	public Point getPositionPixel() {
 		return positionUnitPixel;
 	}
-	
+
 	public Point getPositionToField() {
 		return positionUnitToField;
 	}
