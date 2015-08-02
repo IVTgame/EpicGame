@@ -2,9 +2,9 @@ package org.epicgame.group;
 
 import java.util.ArrayList;
 
-import org.abstractfactory.AnimationModel;
-import org.abstractfactory.FactoryUnits;
-import org.abstractfactory.Unit;
+import org.epicgame.abstractfactory.AnimationModel;
+import org.epicgame.abstractfactory.FactoryUnits;
+import org.epicgame.abstractfactory.Unit;
 import org.epicgame.battlefield.BattleField;
 import org.epicgame.controlerunits.RunningPath;
 import org.epicgame.defaultclasses.Point;

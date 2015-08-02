@@ -1,6 +1,6 @@
 package org.epicgame.group;
 
-import org.abstractfactory.Unit;
+import org.epicgame.abstractfactory.Unit;
 import org.epicgame.basichero.BasicHero.Action;
 import org.epicgame.battlefield.BattleField;
 import org.epicgame.controlerunits.RunningPath;

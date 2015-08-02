@@ -1,4 +1,4 @@
-package org.abstractfactory;
+package org.epicgame.abstractfactory;
 
 import org.epicgame.basichero.BasicHero;
 import org.epicgame.defaultclasses.Point;

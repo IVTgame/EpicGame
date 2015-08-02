@@ -3,7 +3,7 @@ package org.epicgame.battlefield;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.abstractfactory.Unit;
+import org.epicgame.abstractfactory.Unit;
 import org.epicgame.defaultclasses.Point;
 
 import com.badlogic.gdx.graphics.g2d.Batch;

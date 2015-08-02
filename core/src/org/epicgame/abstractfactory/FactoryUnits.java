@@ -1,4 +1,4 @@
-package org.abstractfactory;
+package org.epicgame.abstractfactory;
 
 import org.epicgame.defaultclasses.Point;
 import org.json.JSONException;

@@ -1,4 +1,4 @@
-package org.abstractfactory;
+package org.epicgame.abstractfactory;
 
 import java.util.HashMap;
 
