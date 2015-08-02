@@ -1,4 +1,4 @@
-package org.epicgameheroesinterfaces;
+package org.epicgame.heroesinterfaces;
 
 import java.awt.Point;
 

@@ -1,4 +1,4 @@
-package org.epicgameheroesinterfaces;
+package org.epicgame.heroesinterfaces;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 

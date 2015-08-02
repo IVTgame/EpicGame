@@ -2,7 +2,7 @@ package org.epicgame.abstractfactory;
 
 import org.epicgame.basichero.BasicHero;
 import org.epicgame.defaultclasses.Point;
-import org.epicgameheroesinterfaces.DrawableAction;
+import org.epicgame.heroesinterfaces.DrawableAction;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
